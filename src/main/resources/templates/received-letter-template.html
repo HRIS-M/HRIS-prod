@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Received Letter</title>
+</head>
+<body>
+<h2>Received Letter</h2>
+
+<p>Dear <span th:text="${name}"></span>,</p>
+
+<p>We have received your transfer request. Thank you for your submission.</p>
+
+<p>Details:</p>
+<ul>
+    <li>Email: <span th:text="${email}"></span></li>
+    <li>Phone: <span th:text="${phone}"></span></li>
+    <!-- Include other details as needed -->
+</ul>
+
+<p>Best Regards,<br/>
+    HR Department</p>
+</body>
+</html>

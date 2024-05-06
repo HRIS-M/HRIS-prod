@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Approved Transfer Letter</title>
+</head>
+<body>
+<h2>Approved Transfer Letter</h2>
+
+<p>Dear <span th:text="${name}"></span>,</p>
+
+<p>We are pleased to inform you that your transfer request has been approved. Congratulations!</p>
+
+<p>Details:</p>
+<ul>
+  <li>Email: <span th:text="${email}"></span></li>
+  <li>Phone: <span th:text="${phone}"></span></li>
+  <!-- Include other details as needed -->
+</ul>
+
+<p>Your new position is <span th:text="${jobData.position}"></span> in the <span th:text="${jobData.department}"></span> department.</p>
+
+<p>Best Regards,<br/>
+  HR Department</p>
+</body>
+</html>

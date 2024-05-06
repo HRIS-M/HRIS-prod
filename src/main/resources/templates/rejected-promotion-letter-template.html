@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Rejected Promotion Letter</title>
+</head>
+<body>
+<h2>Rejected Promotion Letter</h2>
+
+<p>Dear <span th:text="${name}"></span>,</p>
+
+<p>We regret to inform you that your promotion request has been rejected. We appreciate your understanding.</p>
+
+<p>Details:</p>
+<ul>
+  <li>Email: <span th:text="${email}"></span></li>
+  <li>Phone: <span th:text="${phone}"></span></li>
+  <!-- Include other details as needed -->
+</ul>
+
+<p>Best Regards,<br/>
+  HR Department</p>
+</body>
+</html>
