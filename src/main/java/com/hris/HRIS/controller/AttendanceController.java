@@ -34,6 +34,38 @@ public class AttendanceController {
         return ResponseEntity.ok(response);
     }
 
+    @PutMapping("/depart/{id}")
+    public ResponseEntity<ApiResponse> departAttendance(@PathVariable String id, @RequestBody AttendanceModel attendanceModel){
+        Optional<AttendanceModel> optionalAttendanceModel = attendanceRepository.findById(id);
+
+        if (optionalAttendanceModel.isPresent()){
+            AttendanceModel newModel = optionalAttendanceModel.get();
+
+            newModel.setRecordOutTime(attendanceModel.getRecordOutTime());
+
+            attendanceRepository.save(newModel);
+        }
+
+        ApiResponse response = new ApiResponse("Attendance departed");
+        return ResponseEntity.ok(response);
+    }
+
+    @PutMapping("/assign/shift/{id}")
+    public ResponseEntity<ApiResponse> assignShift(@PathVariable String id, @RequestBody String shift){
+        Optional<AttendanceModel> optionalAttendanceModel = attendanceRepository.findById(id);
+
+        if (optionalAttendanceModel.isPresent()){
+            AttendanceModel newModel = optionalAttendanceModel.get();
+
+            newModel.setWorkShift(shift);
+
+            attendanceRepository.save(newModel);
+        }
+
+        ApiResponse response = new ApiResponse("Shift assigned");
+        return ResponseEntity.ok(response);
+    }
+
     // Endpoint to retrieve all attendance records
     @GetMapping("/get/all")
     public ResponseEntity<List<AttendanceModel>> getAllAttendance() {

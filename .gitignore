@@ -4,9 +4,6 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-# Environment
-.env
-
 # Intellij IDEA
 *.iml
 *.iws
@@ -54,3 +51,4 @@ build/
 
 ### VS Code ###
 .vscode/
+.env
