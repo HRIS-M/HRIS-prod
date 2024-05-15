@@ -7,6 +7,7 @@ import com.hris.HRIS.service.SystemAutomateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.Optional;
@@ -75,5 +76,13 @@ public class MessageController {
 
         ApiResponse apiResponse = new ApiResponse("Message status updated successfully");
         return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping("/upload-image")
+    public String uploadImage(@RequestParam("file") MultipartFile file) {
+        // Logic to store the image file and obtain its URL
+        // Example: Save the image to Google Drive, AWS S3, etc., and return the URL
+        String imageUrl = "https://example.com/image.jpg"; // Replace with actual image URL
+        return "{\"imageUrl\": \"" + imageUrl + "\"}";
     }
 }
