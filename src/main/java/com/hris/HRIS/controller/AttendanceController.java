@@ -42,6 +42,7 @@ public class AttendanceController {
             AttendanceModel newModel = optionalAttendanceModel.get();
 
             newModel.setRecordOutTime(attendanceModel.getRecordOutTime());
+            newModel.setLateMinutes(attendanceModel.getLateMinutes());
 
             attendanceRepository.save(newModel);
         }
