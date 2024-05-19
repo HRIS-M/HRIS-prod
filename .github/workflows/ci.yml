@@ -26,6 +26,9 @@ jobs:
           distribution: 'adopt'
           java-version: '17'
 
+      - name: Install dependencies
+        run: mvn install -DskipTests
+
       - name: Build backend
         run: |
           chmod +x ./mvnw
