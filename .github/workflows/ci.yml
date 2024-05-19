@@ -9,7 +9,7 @@ jobs:
   build-backend:
     runs-on: ubuntu-latest
     env:
-      DATABASE_URI: skip
+      DATABASE_URI: mongodb://localhost:27017
       DATABASE_PORT: 27017
       DATABASE: HRIS-M
       SERVER_PORT: 3269
