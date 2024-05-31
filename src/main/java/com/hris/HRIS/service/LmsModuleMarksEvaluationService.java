@@ -1,10 +1,7 @@
 package com.hris.HRIS.service;
 
-import com.fasterxml.jackson.core.JsonParser;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hris.HRIS.dto.QuizAnswer;
+import com.hris.HRIS.model.EmployeeQuizModel;
 import com.hris.HRIS.model.QuizModel;
 import com.hris.HRIS.model.QuizQuestionModel;
 import com.hris.HRIS.repository.EmployeeQuizRepository;
@@ -13,10 +10,7 @@ import com.hris.HRIS.repository.QuizRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hris.HRIS.model.EmployeeQuizModel;
-
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 

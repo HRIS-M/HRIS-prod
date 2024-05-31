@@ -2,7 +2,6 @@ package com.hris.HRIS.controller;
 
 
 import com.hris.HRIS.dto.ApiResponse;
-import com.hris.HRIS.model.CredentialsModel;
 import com.hris.HRIS.model.OpenUserCredentialsModel;
 import com.hris.HRIS.repository.OpenUserCredentialsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,7 @@ public class OpenUserCredentialsController {
 
         openUserCredentialsRepository.save(openUserCredentialsModel);
 
-            ApiResponse apiResponse = new ApiResponse("Credentials saved successfully");
+        ApiResponse apiResponse = new ApiResponse("Credentials saved successfully");
         return ResponseEntity.ok(apiResponse);
     }
 

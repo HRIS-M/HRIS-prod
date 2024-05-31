@@ -1,8 +1,9 @@
 package com.hris.HRIS.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.hris.HRIS.dto.ApiResponse;
 import com.hris.HRIS.model.AttendanceModel;
-import com.hris.HRIS.model.CredentialsModel;
 import com.hris.HRIS.repository.AttendanceRepository;
 import com.hris.HRIS.service.AttendanceService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,9 @@ public class AttendanceController {
 
     @Autowired
     private AttendanceRepository attendanceRepository;
+
+    @Autowired
+    private EmployeePayItemController employeePayItemController;
 
     // Endpoint to create a new attendance record
     @PostMapping("/create")
@@ -115,6 +119,15 @@ public class AttendanceController {
         }
 
         long lateMinutes = attendanceService.calculateLateMinutes(attendanceModel, expectedInTime);
+
+        ObjectMapper objectMapper = new ObjectMapper();
+        ObjectNode lateMinuteRecord = objectMapper.createObjectNode();
+        // TODO: Temporary added a fixed value as the total hours allowed.
+        lateMinuteRecord.put("totalHoursAllowed", 240);
+        lateMinuteRecord.put("lateMinutes", lateMinutes);
+
+        employeePayItemController.addLateMinuteDeductions(attendanceModel.getEmail(), lateMinuteRecord.toString());
+
         return new ResponseEntity<>(lateMinutes, HttpStatus.OK);
     }
 

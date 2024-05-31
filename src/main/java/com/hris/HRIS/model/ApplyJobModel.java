@@ -5,8 +5,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 @Getter
 @Setter
@@ -25,4 +23,6 @@ public class ApplyJobModel {
     private String email;
 
     private byte[] cv;
+
+    private boolean action = false;
 }

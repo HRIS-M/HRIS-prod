@@ -1,6 +1,5 @@
 package com.hris.HRIS.repository;
 
-import com.hris.HRIS.model.AttendanceModel;
 import com.hris.HRIS.model.LeaveModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
