@@ -1,12 +1,8 @@
 package com.hris.HRIS.model;
 
 import lombok.*;
-
-import java.util.Date;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import java.security.PrivateKey;
 
 @Getter
 @Setter

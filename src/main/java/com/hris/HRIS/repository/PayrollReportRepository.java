@@ -1,11 +1,9 @@
 package com.hris.HRIS.repository;
 
-import java.util.List;
-import java.util.Optional;
-
+import com.hris.HRIS.model.PayrollReportModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.hris.HRIS.model.PayrollReportModel;
+import java.util.List;
 
 public interface PayrollReportRepository extends MongoRepository<PayrollReportModel, String> {
     List<PayrollReportModel> findAllByEmail(String email);

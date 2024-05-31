@@ -1,27 +1,24 @@
 package com.hris.HRIS.service;
 
-import java.time.LocalDateTime;
-import java.time.YearMonth;
-import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-
 import com.hris.HRIS.controller.AttendanceController;
+import com.hris.HRIS.controller.EmployeePayItemController;
+import com.hris.HRIS.controller.PayItemController;
+import com.hris.HRIS.controller.TaxController;
 import com.hris.HRIS.dto.PayrollReportItem;
 import com.hris.HRIS.dto.SummaryReportItem;
 import com.hris.HRIS.model.*;
 import com.hris.HRIS.repository.EmployeeRepository;
 import com.hris.HRIS.repository.OrganizationRepository;
+import com.hris.HRIS.repository.PayrollReportRepository;
 import com.hris.HRIS.repository.SummaryReportRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.thymeleaf.context.Context;
 
-import com.hris.HRIS.controller.EmployeePayItemController;
-import com.hris.HRIS.controller.PayItemController;
-import com.hris.HRIS.controller.TaxController;
-import com.hris.HRIS.repository.PayrollReportRepository;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Service
 public class PayrollReportsGenerationService {

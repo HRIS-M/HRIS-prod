@@ -11,19 +11,18 @@ import com.hris.HRIS.service.EmailService;
 import com.hris.HRIS.service.SystemAutomateService;
 import com.hris.HRIS.shared.objects.JobData;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import java.io.IOException;
-import java.nio.file.Files;
 
 @RestController
 @RequestMapping("/api/v1/organization")

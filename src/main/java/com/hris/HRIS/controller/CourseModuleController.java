@@ -3,7 +3,6 @@ package com.hris.HRIS.controller;
 import com.hris.HRIS.dto.ApiResponse;
 import com.hris.HRIS.model.CourseModuleModal;
 import com.hris.HRIS.repository.CourseModuleRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

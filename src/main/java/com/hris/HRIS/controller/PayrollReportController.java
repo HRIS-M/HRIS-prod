@@ -7,17 +7,15 @@ import com.hris.HRIS.repository.EmployeeRepository;
 import com.hris.HRIS.repository.OrganizationRepository;
 import com.hris.HRIS.repository.PayrollReportRepository;
 import com.hris.HRIS.service.PayrollReportsGenerationService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/payrollreport")

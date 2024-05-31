@@ -1,6 +1,5 @@
 package com.hris.HRIS.service;
 
-import com.hris.HRIS.model.AttendanceModel;
 import com.hris.HRIS.model.LeaveModel;
 import com.hris.HRIS.repository.LeaveRepository;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,6 +1,5 @@
 package com.hris.HRIS.repository;
 
-import com.hris.HRIS.model.CredentialsModel;
 import com.hris.HRIS.model.OpenUserCredentialsModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
 

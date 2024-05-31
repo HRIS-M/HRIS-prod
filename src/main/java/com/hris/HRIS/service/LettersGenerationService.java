@@ -1,6 +1,5 @@
 package com.hris.HRIS.service;
 
-import com.hris.HRIS.ThymeleafConfig;
 import com.hris.HRIS.model.OnboardingPlanModel;
 import com.hris.HRIS.model.PromotionModel;
 import com.hris.HRIS.model.TransferModel;

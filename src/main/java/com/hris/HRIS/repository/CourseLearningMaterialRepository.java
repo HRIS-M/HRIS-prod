@@ -1,10 +1,9 @@
 package com.hris.HRIS.repository;
 
-import java.util.List;
-
+import com.hris.HRIS.model.CourseLearningMaterialModal;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import com.hris.HRIS.model.CourseLearningMaterialModal;
+import java.util.List;
 
 public interface CourseLearningMaterialRepository extends MongoRepository<CourseLearningMaterialModal, String> {
     
