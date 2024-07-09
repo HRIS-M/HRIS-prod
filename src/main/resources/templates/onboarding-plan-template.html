@@ -2,13 +2,17 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8"/>
-    <title>Onboarding Plan</title>
 </head>
-<body>
-<h1>Onboarding Plan</h1>
-<p>Onboarding ID: <span th:text="${id}"></span></p><br>
-<p>Task Date: <span th:text="${taskDate}"></span></p>
-<hr>
-<p th:text="${description}"></p>
+<body style="background-color: var(--color-surface-200)">
+
+<div class="p-3" style="background-color: var(--color-primary-200)">
+    <h1 style="color: var(--color-text-100)">Onboarding Plan</h1>
+</div>
+<div class="container" style="color: var(--color-text-200)">
+    <p>Onboarding ID: <span th:text="${id}"></span></p><br>
+    <p>Task Date: <span th:text="${taskDate}"></span></p>
+    <hr style="color: var(--color-primary-300)">
+    <p th:text="${description}"></p>
+</div>
 </body>
 </html>

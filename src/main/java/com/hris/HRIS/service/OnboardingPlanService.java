@@ -8,10 +8,9 @@ import com.hris.HRIS.repository.OnboardingRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Service
 public class OnboardingPlanService {
@@ -66,6 +65,25 @@ public class OnboardingPlanService {
             });
 
             onboardingRepository.save(onboardingModel);
+        }
+    }
+
+    public void deleteAllTasksByPlanId(String planId) {
+        Optional<List<OnboardingModel>> onboardingModelOptional = onboardingRepository.findAllByOnBoardingPlanId(planId);
+
+        if (onboardingModelOptional.isPresent()) {
+            List<OnboardingModel> onboardingModels = onboardingModelOptional.get();
+            onboardingRepository.deleteAll(onboardingModels);
+        }
+    }
+
+    public void deleteAllTasksAndSaveAll(String planId, List<OnboardingModel> onboardingModels) {
+        Optional<List<OnboardingModel>> onboardingModelOptional = onboardingRepository.findAllByOnBoardingPlanId(planId);
+
+        if (onboardingModelOptional.isPresent()) {
+            List<OnboardingModel> onboardingModelsList = onboardingModelOptional.get();
+            onboardingRepository.deleteAll(onboardingModelsList);
+            onboardingRepository.saveAll(onboardingModels);
         }
     }
 

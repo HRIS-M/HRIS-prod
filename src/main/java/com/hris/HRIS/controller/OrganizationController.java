@@ -8,21 +8,23 @@ import com.hris.HRIS.repository.CredentialsRepository;
 import com.hris.HRIS.repository.EmployeeRepository;
 import com.hris.HRIS.repository.OrganizationRepository;
 import com.hris.HRIS.service.EmailService;
+import com.hris.HRIS.service.EncryptionService;
 import com.hris.HRIS.service.SystemAutomateService;
 import com.hris.HRIS.shared.objects.JobData;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
+import java.io.IOException;
+import java.nio.file.Files;
 
 @RestController
 @RequestMapping("/api/v1/organization")
@@ -42,8 +44,11 @@ public class OrganizationController {
     @Autowired
     EmailService emailService;
 
+    @Autowired
+    EncryptionService encryptionService;
+
     @PostMapping("/save")
-    public ResponseEntity<ApiResponse> saveOrganization(@RequestBody OrganizationModel organizationModel) {
+    public ResponseEntity<ApiResponse> saveOrganization(@RequestBody OrganizationModel organizationModel) throws Exception {
         OrganizationModel orgModel = organizationRepository.save(organizationModel);
 
         JobData jobData = new JobData();
@@ -51,6 +56,13 @@ public class OrganizationController {
         jobData.setDepartment("N/A");
         jobData.setDoj(String.valueOf(new Date()));
         jobData.setSalary("N/A");
+        jobData.setEmployementType("N/A");
+        jobData.setJobGrade("N/A");
+        jobData.setPersonalGrade("N/A");
+        jobData.setSupervisor("N/A");
+        jobData.setBusinessUnit("N/A");
+        jobData.setLocation("N/A");
+        jobData.setBranch("N/A");
 
         EmployeeModel employeeModel = new EmployeeModel();
         employeeModel.setName(organizationModel.getContactPerson());
@@ -61,6 +73,14 @@ public class OrganizationController {
         employeeModel.setDob("N/A");
         employeeModel.setAddress("N/A");
         employeeModel.setNic("N/A");
+        employeeModel.setMaritalStatus("N/A");
+        employeeModel.setGender("N/A");
+        employeeModel.setReligion("N/A");
+        employeeModel.setNationality("N/A");
+        employeeModel.setDateOfRetirement("N/A");
+        employeeModel.setDateOfExit("N/A");
+        employeeModel.setExitReason("N/A");
+        employeeModel.setDateOfContractEnd("N/A");
         // Set default photo from resources directory
         try {
             Resource defaultPhotoResource = new ClassPathResource("default_profile.jpg");
@@ -73,11 +93,18 @@ public class OrganizationController {
         }
         employeeModel.setLevel(0);
         employeeModel.setStatus("N/A");
+        employeeModel.setAnnualLeaveBalance(14);
+        employeeModel.setSickLeaveBalance(7);
+        employeeModel.setCasualLeaveBalance(7);
+        employeeModel.setMaternityLeaveBalance(84);
+        employeeModel.setPaternityLeaveBalance(3);
+        employeeModel.setNoPayLeaveBalance(14);
 
         EmployeeModel emp = employeeRepository.save(employeeModel);
         systemAutomateService.updateOrganizationEmployees(emp);
 
         String password = String.valueOf(random_Password(10));
+        String encryptedPassword = encryptionService.encryptPassword(password);
         String name = employeeModel.getName().split(" ")[0];
         String para = "Thank you for choosing us as your organization's HR Information platform. We can help you to manage your organization easily and in flexible ways. You are the main administrator of your organization and start your journey with SPARKC HR Systems.\n\n" +
                 "Email: "+organizationModel.getEmail()+"\n" +
@@ -88,7 +115,7 @@ public class OrganizationController {
 
         CredentialsModel credentialsModel = new CredentialsModel();
         credentialsModel.setEmail(organizationModel.getEmail());
-        credentialsModel.setPassword(password);
+        credentialsModel.setPassword(encryptedPassword);
         credentialsModel.setLevel("0");
         credentialsRepository.save(credentialsModel);
 
@@ -164,5 +191,28 @@ public class OrganizationController {
 
         ApiResponse apiResponse = new ApiResponse("Organization deleted successfully");
         return ResponseEntity.ok(apiResponse);
+    }
+
+    @PutMapping("/updateLeaves/{id}")
+    public ResponseEntity<ApiResponse> updateLeaves(@PathVariable String id, @RequestBody OrganizationModel organizationModel) {
+        Optional<OrganizationModel> organizationModelOptional = organizationRepository.findById(id);
+
+        if (organizationModelOptional.isPresent()) {
+            OrganizationModel existingOrganization = organizationModelOptional.get();
+            existingOrganization.setAnnualLeave(organizationModel.getAnnualLeave());
+            existingOrganization.setSickLeave(organizationModel.getSickLeave());
+            existingOrganization.setMaternityLeave(organizationModel.getMaternityLeave());
+            existingOrganization.setPaternityLeave(organizationModel.getPaternityLeave());
+            existingOrganization.setNoPayLeave(organizationModel.getNoPayLeave());
+            existingOrganization.setCasualLeave(organizationModel.getCasualLeave());
+            existingOrganization.setIsLeavesConfigured(true);
+
+            organizationRepository.save(existingOrganization);
+
+            ApiResponse apiResponse = new ApiResponse("Leaves updated successfully");
+            return ResponseEntity.ok(apiResponse);
+        }
+
+        return ResponseEntity.notFound().build();
     }
 }

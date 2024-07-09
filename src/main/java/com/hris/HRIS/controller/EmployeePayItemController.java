@@ -1,18 +1,20 @@
 package com.hris.HRIS.controller;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hris.HRIS.dto.ApiResponse;
 import com.hris.HRIS.model.EmployeeModel;
 import com.hris.HRIS.model.EmployeePayItemModel;
 import com.hris.HRIS.model.PayItemModel;
 import com.hris.HRIS.repository.EmployeePayItemRepository;
 import com.hris.HRIS.service.PayrollModuleCalculationService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @RestController
 @RequestMapping("/api/v1/employee/payitems")
@@ -48,6 +50,18 @@ public class EmployeePayItemController {
 
         ApiResponse apiResponse = new ApiResponse("Pay item assigned successfully.");
         return ResponseEntity.ok(apiResponse);
+    }
+
+    @GetMapping("/get/assigned-employees/payItemId/{payItemId}")
+    public List<String> getAssignedEmployeesByPayitemId(@PathVariable String payItemId){
+        List<EmployeePayItemModel> employeePayitems = employeePayItemRepository.findAllByPayItemId(payItemId);
+        List<String> employees = new ArrayList<>();
+
+        for (EmployeePayItemModel employeePayItemModel : employeePayitems) {
+            employees.add(employeePayItemModel.getEmail());
+        }
+
+        return employees;
     }
 
     @GetMapping("/get/email/{email}")

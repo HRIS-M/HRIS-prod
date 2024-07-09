@@ -1,10 +1,14 @@
 package com.hris.HRIS.model;
 
+import com.hris.HRIS.dto.CourseUser;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -14,15 +18,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class CourseModel {
     @Id
     private String id;
+    private String organizationId;
     private String courseCode;
     private String courseName;
     private String courseDescription;
-    private Object users;
+    private List<CourseUser> users;
     private Integer enrollmentLimit;
     private String gradingScale; // i.e.: LETTER_GRADES, PERCENTAGE)
     private String startDate;
     private String endDate;
     private String courseCreatedDate;
+    private List<String> courseModulesIndexes;
     private String status; // Unpublished, Available, Inprogress, Completed, Archived
 }
 

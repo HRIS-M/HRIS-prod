@@ -5,6 +5,7 @@ import com.hris.HRIS.model.QuizModel;
 import com.hris.HRIS.model.QuizQuestionModel;
 import com.hris.HRIS.repository.QuizQuestionRepository;
 import com.hris.HRIS.repository.QuizRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

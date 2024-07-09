@@ -1,24 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8"/>
-  <title>Received Promotion Letter</title>
+    <meta charset="UTF-8"/>
 </head>
 <body>
-<h2>Received Promotion Letter</h2>
+<div class="p-2" style="background-color: #6EA8FE">
+    <h2 style="color: white">Received Promotion Letter</h2>
+</div>
 
-<p>Dear <span th:text="${name}"></span>,</p>
+<div class="container">
+    <p>Dear <span th:text="${name}"></span>,</p>
 
-<p>We have received your promotion request. Thank you for your submission.</p>
+    <p>Congratulations! Your promotion request has been received. We appreciate your patience and cooperation.</p>
 
-<p>Details:</p>
-<ul>
-  <li>Email: <span th:text="${email}"></span></li>
-  <li>Phone: <span th:text="${phone}"></span></li>
-  <!-- Include other details as needed -->
-</ul>
+    <p>Details:</p>
+    <ul style="list-style: none">
+        <li>Email: <span th:text="${email}"></span></li>
+        <li>Phone: <span th:text="${phone}"></span></li>
+        <!-- Include other details as needed -->
+    </ul>
 
-<p>Best Regards,<br/>
-  HR Department</p>
+    <p>Best Regards,<br/>
+        HR Department</p>
+
+</div>
 </body>
 </html>

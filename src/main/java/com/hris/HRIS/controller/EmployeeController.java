@@ -1,11 +1,17 @@
 package com.hris.HRIS.controller;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hris.HRIS.dto.ApiResponse;
 import com.hris.HRIS.model.ChannelModel;
+import com.hris.HRIS.model.DepartmentModel;
 import com.hris.HRIS.model.EmployeeModel;
+import com.hris.HRIS.model.ShiftModel;
 import com.hris.HRIS.repository.ChannelRepository;
+import com.hris.HRIS.repository.DepartmentRepository;
 import com.hris.HRIS.repository.EmployeeRepository;
+import com.hris.HRIS.service.ShiftService;
 import com.hris.HRIS.service.SystemAutomateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -29,30 +35,52 @@ public class EmployeeController {
     @Autowired
     SystemAutomateService systemAutomateService;
 
+    @Autowired
+    ShiftService shiftService;
+
     @PostMapping("/save")
     public ResponseEntity<ApiResponse> saveEmployee(@RequestPart("photo") MultipartFile photo,
                                                     @RequestParam("name") String name,
                                                     @RequestParam("email") String email,
                                                     @RequestParam("phone") String phone,
+                                                    @RequestParam("telephone") String telephone,
                                                     @RequestParam("address") String address,
                                                     @RequestParam("organizationId") String organizationId,
                                                     @RequestParam("departmentId") String departmentId,
                                                     @RequestParam("jobData") String jobData,
+                                                    @RequestParam("workShift") String workShift,
                                                     @RequestParam("gender") String gender,
                                                     @RequestParam("dob") String dob,
                                                     @RequestParam("nic") String nic,
                                                     @RequestParam("status") String status,
-                                                    @RequestParam("level") String level
-    ) throws IOException {
+                                                    @RequestParam("level") String level,
+                                                    @RequestParam("maritalStatus") String maritalStatus,
+                                                    @RequestParam("nationality") String nationality,
+                                                    @RequestParam("religion") String religion,
+                                                    @RequestParam("dateOfRetirement") String dateOfRetirement,
+                                                    @RequestParam("dateOfExit") String dateOfExit,
+                                                    @RequestParam("exitReason") String exitReason,
+                                                    @RequestParam("dateOfContractEnd") String dateOfContractEnd,
+                                                    @RequestParam("annualLeaveBalance") String annualLeaveBalance,
+                                                    @RequestParam("sickLeaveBalance") String sickLeaveBalance,
+                                                    @RequestParam("casualLeaveBalance") String casualLeaveBalance,
+                                                    @RequestParam("maternityLeaveBalance") String maternityLeaveBalance,
+                                                    @RequestParam("paternityLeaveBalance") String paternityLeaveBalance,
+                                                    @RequestParam("noPayLeaveBalance") String noPayLeaveBalance
+    ) throws Exception {
 
-//        Integer.parseInt(jobData);
         ObjectMapper objectMapper = new ObjectMapper();
         Object fixedJobData = objectMapper.readValue(jobData, Object.class);
+
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.ACCEPT_SINGLE_VALUE_AS_ARRAY, true);
+        List<ShiftModel> fixedWorkShift = mapper.readValue(workShift, new TypeReference<List<ShiftModel>>() {});
 
         EmployeeModel newEmployee = new EmployeeModel();
         newEmployee.setName(name);
         newEmployee.setEmail(email);
         newEmployee.setPhone(phone);
+        newEmployee.setTelephone(telephone);
         newEmployee.setAddress(address);
         newEmployee.setOrganizationId(organizationId);
         newEmployee.setDepartmentId(departmentId);
@@ -63,6 +91,21 @@ public class EmployeeController {
         newEmployee.setPhoto(photo.getBytes());
         newEmployee.setStatus(status);
         newEmployee.setLevel(Integer.parseInt(level));
+        newEmployee.setMaritalStatus(maritalStatus);
+        newEmployee.setNationality(nationality);
+        newEmployee.setReligion(religion);
+        newEmployee.setDateOfRetirement(dateOfRetirement);
+        newEmployee.setDateOfExit(dateOfExit);
+        newEmployee.setExitReason(exitReason);
+        newEmployee.setDateOfContractEnd(dateOfContractEnd);
+        newEmployee.setAnnualLeaveBalance(Integer.parseInt(annualLeaveBalance));
+        newEmployee.setSickLeaveBalance(Integer.parseInt(sickLeaveBalance));
+        newEmployee.setCasualLeaveBalance(Integer.parseInt(casualLeaveBalance));
+        newEmployee.setMaternityLeaveBalance(Integer.parseInt(maternityLeaveBalance));
+        newEmployee.setPaternityLeaveBalance(Integer.parseInt(paternityLeaveBalance));
+        newEmployee.setNoPayLeaveBalance(Integer.parseInt(noPayLeaveBalance));
+
+        newEmployee.setWorkShift(fixedWorkShift);
 
         EmployeeModel emp = employeeRepository.save(newEmployee);
 
@@ -121,6 +164,7 @@ public class EmployeeController {
                                                       @RequestParam("name") String name,
                                                       @RequestParam("email") String email,
                                                       @RequestParam("phone") String phone,
+                                                      @RequestParam("telephone") String telephone,
                                                       @RequestParam("address") String address,
                                                       @RequestParam("organizationId") String organizationId,
                                                       @RequestParam("departmentId") String departmentId,
@@ -128,7 +172,15 @@ public class EmployeeController {
                                                       @RequestParam("dob") String dob,
                                                       @RequestParam("nic") String nic,
                                                       @RequestParam("status") String status,
-                                                      @RequestParam("level") String level) throws IOException {
+                                                      @RequestParam("level") String level,
+                                                      @RequestParam("maritalStatus") String maritalStatus,
+                                                      @RequestParam("nationality") String nationality,
+                                                      @RequestParam("religion") String religion,
+                                                      @RequestParam("dateOfRetirement") String dateOfRetirement,
+                                                      @RequestParam("dateOfExit") String dateOfExit,
+                                                      @RequestParam("exitReason") String exitReason,
+                                                      @RequestParam("dateOfContractEnd") String dateOfContractEnd
+    ) throws IOException {
 
         Optional<EmployeeModel> optionalEmployeeModel = employeeRepository.findById(id);
 
@@ -139,6 +191,7 @@ public class EmployeeController {
             employeeModel.setName(name);
             employeeModel.setEmail(email);
             employeeModel.setPhone(phone);
+            employeeModel.setTelephone(telephone);
             employeeModel.setAddress(address);
             employeeModel.setOrganizationId(organizationId);
             employeeModel.setDepartmentId(departmentId);
@@ -154,6 +207,13 @@ public class EmployeeController {
             employeeModel.setNic(nic);
             employeeModel.setStatus(status);
             employeeModel.setLevel(Integer.parseInt(level));
+            employeeModel.setMaritalStatus(maritalStatus);
+            employeeModel.setNationality(nationality);
+            employeeModel.setReligion(religion);
+            employeeModel.setDateOfRetirement(dateOfRetirement);
+            employeeModel.setDateOfExit(dateOfExit);
+            employeeModel.setExitReason(exitReason);
+            employeeModel.setDateOfContractEnd(dateOfContractEnd);
             systemAutomateService.updateEmployeeAndUpdateOrganization(id, employeeModel);
         }
 
@@ -167,6 +227,7 @@ public class EmployeeController {
                                                           @RequestParam("name") String name,
                                                           @RequestParam("email") String email,
                                                           @RequestParam("phone") String phone,
+                                                          @RequestParam("telephone") String telephone,
                                                           @RequestParam("address") String address,
                                                           @RequestParam("organizationId") String organizationId,
                                                           @RequestParam("departmentId") String departmentId,
@@ -175,7 +236,14 @@ public class EmployeeController {
                                                           @RequestParam("dob") String dob,
                                                           @RequestParam("nic") String nic,
                                                           @RequestParam("status") String status,
-                                                          @RequestParam(value = "level", required = false) String level
+                                                          @RequestParam(value = "level", required = false) String level,
+                                                          @RequestParam("maritalStatus") String maritalStatus,
+                                                          @RequestParam("nationality") String nationality,
+                                                          @RequestParam("religion") String religion,
+                                                          @RequestParam("dateOfRetirement") String dateOfRetirement,
+                                                          @RequestParam("dateOfExit") String dateOfExit,
+                                                          @RequestParam("exitReason") String exitReason,
+                                                          @RequestParam("dateOfContractEnd") String dateOfContractEnd
     ) throws IOException {
 
         ObjectMapper objectMapper = new ObjectMapper();
@@ -188,6 +256,7 @@ public class EmployeeController {
             newEmployee.setName(name);
             newEmployee.setEmail(email);
             newEmployee.setPhone(phone);
+            newEmployee.setTelephone(telephone);
             newEmployee.setAddress(address);
             newEmployee.setOrganizationId(organizationId);
             newEmployee.setDepartmentId(departmentId);
@@ -208,6 +277,14 @@ public class EmployeeController {
             else {
                 newEmployee.setLevel(newEmployee.getLevel());
             }
+
+            newEmployee.setMaritalStatus(maritalStatus);
+            newEmployee.setNationality(nationality);
+            newEmployee.setReligion(religion);
+            newEmployee.setDateOfRetirement(dateOfRetirement);
+            newEmployee.setDateOfExit(dateOfExit);
+            newEmployee.setExitReason(exitReason);
+            newEmployee.setDateOfContractEnd(dateOfContractEnd);
 
             updateChannels(newEmployee);
 
@@ -233,6 +310,22 @@ public class EmployeeController {
         }
     }
 
+    @PutMapping("/update/level/{id}")
+    public ResponseEntity<ApiResponse> updateEmployeeLevel(@PathVariable String id, @RequestBody EmployeeModel employeeModel) {
+        Optional<EmployeeModel> optionalEmployeeModel = employeeRepository.findById(id);
+
+        if (optionalEmployeeModel.isPresent()) {
+            EmployeeModel existModel = optionalEmployeeModel.get();
+            existModel.setLevel(employeeModel.getLevel());
+
+            EmployeeModel model = employeeRepository.save(existModel);
+            systemAutomateService.updateOrganizationSingleEmployeeData(model);
+            systemAutomateService.updateCredentialLevel(id, model);
+        }
+        ApiResponse apiResponse = new ApiResponse("Employee level updated successfully");
+        return ResponseEntity.ok(apiResponse);
+    }
+
     @PutMapping("/update/email/{email}")
     public ResponseEntity<ApiResponse> updateEmployeeByEmail(@PathVariable String email, @RequestBody EmployeeModel employeeModel) {
         systemAutomateService.updateEmployeeAndUpdateOrganizationByEmail(email, employeeModel);
@@ -256,6 +349,44 @@ public class EmployeeController {
         systemAutomateService.deleteEmployeeAndUpdateOrganizationByEmail(email);
 
         ApiResponse apiResponse = new ApiResponse("Employee deleted successfully");
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping("/assign/shift/{id}")
+    public ResponseEntity<ApiResponse> assignShift(@PathVariable String id, @RequestBody ShiftModel shiftModel) {
+        Optional<EmployeeModel> optionalEmployeeModel = employeeRepository.findById(id);
+        if (optionalEmployeeModel.isPresent()) {
+            shiftService.assignSiftToEmployee(id, shiftModel);
+        }
+        ApiResponse apiResponse = new ApiResponse("Shift assigned successfully");
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PutMapping("/update/shift/{id}")
+    public ResponseEntity<ApiResponse> updateShift(@PathVariable String id, @RequestBody ShiftModel shiftModel) {
+        Optional<EmployeeModel> optionalEmployeeModel = employeeRepository.findById(id);
+        if (optionalEmployeeModel.isPresent()) {
+            shiftService.updateSiftToEmployee(id, shiftModel);
+        }
+        ApiResponse apiResponse = new ApiResponse("Shift updated successfully");
+        return ResponseEntity.ok(apiResponse);
+    }
+
+    @PutMapping("/update/leave/count/{id}")
+    public ResponseEntity<ApiResponse> updateLeaveCount(@PathVariable String id, @RequestBody EmployeeModel employeeModel) {
+        Optional<EmployeeModel> optionalEmployeeModel = employeeRepository.findById(id);
+        if (optionalEmployeeModel.isPresent()) {
+            EmployeeModel existModel = optionalEmployeeModel.get();
+            existModel.setAnnualLeaveBalance(employeeModel.getAnnualLeaveBalance());
+            existModel.setSickLeaveBalance(employeeModel.getSickLeaveBalance());
+            existModel.setCasualLeaveBalance(employeeModel.getCasualLeaveBalance());
+            existModel.setMaternityLeaveBalance(employeeModel.getMaternityLeaveBalance());
+            existModel.setPaternityLeaveBalance(employeeModel.getPaternityLeaveBalance());
+            existModel.setNoPayLeaveBalance(employeeModel.getNoPayLeaveBalance());
+
+            employeeRepository.save(existModel);
+        }
+        ApiResponse apiResponse = new ApiResponse("Leave count updated successfully");
         return ResponseEntity.ok(apiResponse);
     }
 }

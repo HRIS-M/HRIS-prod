@@ -1,10 +1,13 @@
 package com.hris.HRIS.model;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
+
+import java.util.List;
 
 @Getter
 @Setter
@@ -22,13 +25,14 @@ public class CourseModuleModal {
     private String startDate;
     private String endDate;
     private String createdDate;
+    private List<String> moduleItemsIndexes;
     private String status; // Available, unpublished, Archived.
 }
 
 /*
 Sample input:
 {
-    "moduleId" : "65f509dccc752c3fca3f6e4f",
+    "courseId" : "65f509dccc752c3fca3f6e4f",
     "moduleTitle" : "Week 1",
     "moduleDescription" : "",
     "estimatedMinutesToComplete" : 20,

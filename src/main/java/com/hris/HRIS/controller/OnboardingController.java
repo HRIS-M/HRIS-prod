@@ -70,11 +70,17 @@ public class OnboardingController {
             OnboardingModel existingOnboarding = onboardingModelOptional.get();
             existingOnboarding.setOrganizationId(onboardingModel.getOrganizationId());
             existingOnboarding.setOnBoardingPlanId(onboardingModel.getOnBoardingPlanId());
+            existingOnboarding.setTaskTitle(onboardingModel.getTaskTitle());
+            existingOnboarding.setTaskName(onboardingModel.getTaskName());
             existingOnboarding.setAdminEmail(onboardingModel.getAdminEmail());
             existingOnboarding.setDescription(onboardingModel.getDescription());
             existingOnboarding.setStartdate(onboardingModel.getStartdate());
             existingOnboarding.setTaskdate(onboardingModel.getTaskdate());
+            existingOnboarding.setClosed(onboardingModel.getClosed());
             existingOnboarding.setStatus(onboardingModel.getStatus());
+            existingOnboarding.setMonitoredBy(onboardingModel.getMonitoredBy());
+            existingOnboarding.setActivityNotes(onboardingModel.getActivityNotes());
+            existingOnboarding.setStatusNotes(onboardingModel.getStatusNotes());
 
             onboardingRepository.save(existingOnboarding);
 
@@ -116,5 +122,19 @@ public class OnboardingController {
 
         ApiResponse apiResponse = new ApiResponse("Onboarding deleted successfully");
         return ResponseEntity.ok(apiResponse);
+    }
+
+    @PostMapping("/save/tasks/{planId}")
+    public ResponseEntity<ApiResponse> saveTasks(@PathVariable String planId, @RequestBody List<OnboardingModel> onboardingModel) {
+        onboardingModel.forEach(onboarding -> onboarding.setOnBoardingPlanId(planId));
+        onboardingRepository.saveAll(onboardingModel);
+        return ResponseEntity.ok(new ApiResponse("Saved all tasks to onboarding plan"));
+    }
+
+    @PutMapping("/update/tasks/{planId}")
+    public ResponseEntity<ApiResponse> updatePlan(@PathVariable String planId, @RequestBody List<OnboardingModel> onboardingModels) {
+        onboardingModels.forEach(onboarding -> onboarding.setOnBoardingPlanId(planId));
+        onboardingPlanService.deleteAllTasksAndSaveAll(planId, onboardingModels);
+        return ResponseEntity.ok(new ApiResponse("Plan updated successfully"));
     }
 }

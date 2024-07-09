@@ -37,6 +37,9 @@ public class SystemAutomateService {
     @Autowired
     EmailService emailService;
 
+    @Autowired
+    EncryptionService encryptionService;
+
     public void UpdateEmployeeJobDataExit(ExitListModel exitListModel) {
         Optional<EmployeeModel> employee =  employeeRepository.findOneByEmail(exitListModel.getEmail());
 
@@ -67,7 +70,7 @@ public class SystemAutomateService {
         }
     }
 
-    public void CreateCredentials(EmployeeModel employeeModel){
+    public void CreateCredentials(EmployeeModel employeeModel) throws Exception {
         Optional<OrganizationModel> optionalOrganizationModel = organizationRepository.findById(employeeModel.getOrganizationId());
         if (optionalOrganizationModel.isPresent()){
             OrganizationModel organizationModel = optionalOrganizationModel.get();
@@ -75,6 +78,7 @@ public class SystemAutomateService {
             String orgName = organizationModel.getOrganizationName();
             String email = employeeModel.getEmail();
             String password = String.valueOf(random_Password(10));
+            String encryptedPassword = encryptionService.encryptPassword(password);
             String name = employeeModel.getName().split(" ")[0];
             String para = "Thank you for registering with "+orgName+".\n\nUse following credentials to login to the system at first time.\nEmail: "+email+"\nPassword: "+password+"\n\n";
             String tag = "Best Regards,\n"+orgName+" Team.\n\n";
@@ -82,11 +86,25 @@ public class SystemAutomateService {
 
             CredentialsModel credentialsModel = new CredentialsModel();
             credentialsModel.setEmail(employeeModel.getEmail());
-            credentialsModel.setPassword(password);
-            credentialsModel.setLevel("1");
+            credentialsModel.setPassword(encryptedPassword);
+            credentialsModel.setLevel("2");
             credentialsRepository.save(credentialsModel);
 
             emailService.sendSimpleEmail(employeeModel.getEmail(),"Login Credentials","Hello "+name+",\n"+para+tag+footer);
+        }
+    }
+
+    public void updateCredentialLevel(String empId, EmployeeModel employeeModel){
+        Optional<EmployeeModel> optionalEmployeeModel = employeeRepository.findById(empId);
+        if (optionalEmployeeModel.isPresent()){
+            EmployeeModel employee = optionalEmployeeModel.get();
+
+            Optional<CredentialsModel> optionalCredentialsModel = credentialsRepository.findByEmail(employee.getEmail());
+            if (optionalCredentialsModel.isPresent()){
+                CredentialsModel credentialsModel = optionalCredentialsModel.get();
+                credentialsModel.setLevel(String.valueOf(employeeModel.getLevel()));
+                credentialsRepository.save(credentialsModel);
+            }
         }
     }
     static char[] random_Password(int len)
@@ -147,11 +165,17 @@ public class SystemAutomateService {
 
         exitListModel.setName(employeeExitModel.getName());
         exitListModel.setEmail(employeeExitModel.getEmail());
+        exitListModel.setOrganizationId(employeeExitModel.getOrganizationId());
         exitListModel.setPhone(employeeExitModel.getPhone());
+        exitListModel.setTelephone(employeeExitModel.getTelephone());
         exitListModel.setAddress(employeeExitModel.getAddress());
         exitListModel.setJobData(employeeExitModel.getJobData());
         exitListModel.setDoe(employeeExitModel.getDoe());
         exitListModel.setDoj(employeeExitModel.getDoj());
+        exitListModel.setStatus(employeeExitModel.getStatus());
+        exitListModel.setDateOfRetirement(employeeExitModel.getDateOfRetirement());
+        exitListModel.setExitReason(employeeExitModel.getExitReason());
+        exitListModel.setDateOfContractEnd(employeeExitModel.getDateOfContractEnd());
         exitListModel.setPhoto(employeeExitModel.getPhoto());
         exitListRepository.save(exitListModel);
 
@@ -323,6 +347,7 @@ public class SystemAutomateService {
             existingEmployee.setName(updatedEmployee.getName());
             existingEmployee.setEmail(updatedEmployee.getEmail());
             existingEmployee.setPhone(updatedEmployee.getPhone());
+            existingEmployee.setTelephone(updatedEmployee.getTelephone());
             existingEmployee.setAddress(updatedEmployee.getAddress());
             existingEmployee.setJobData(updatedEmployee.getJobData());
             existingEmployee.setDepartmentId(updatedEmployee.getDepartmentId());
@@ -332,6 +357,13 @@ public class SystemAutomateService {
             existingEmployee.setGender(updatedEmployee.getGender());
             existingEmployee.setPhoto(updatedEmployee.getPhoto());
             existingEmployee.setStatus(updatedEmployee.getStatus());
+            existingEmployee.setMaritalStatus(updatedEmployee.getMaritalStatus());
+            existingEmployee.setNationality(updatedEmployee.getNationality());
+            existingEmployee.setReligion(updatedEmployee.getReligion());
+            existingEmployee.setDateOfRetirement(updatedEmployee.getDateOfRetirement());
+            existingEmployee.setDateOfExit(updatedEmployee.getDateOfExit());
+            existingEmployee.setExitReason(updatedEmployee.getExitReason());
+            existingEmployee.setDateOfContractEnd(updatedEmployee.getDateOfContractEnd());
 
             employeeRepository.save(existingEmployee);
 
@@ -386,6 +418,7 @@ public class SystemAutomateService {
             existingEmployee.setName(updatedEmployee.getName());
             existingEmployee.setEmail(updatedEmployee.getEmail());
             existingEmployee.setPhone(updatedEmployee.getPhone());
+            existingEmployee.setTelephone(updatedEmployee.getTelephone());
             existingEmployee.setAddress(updatedEmployee.getAddress());
             existingEmployee.setJobData(updatedEmployee.getJobData());
             existingEmployee.setDepartmentId(updatedEmployee.getDepartmentId());
@@ -395,6 +428,13 @@ public class SystemAutomateService {
             existingEmployee.setGender(updatedEmployee.getGender());
             existingEmployee.setPhoto(updatedEmployee.getPhoto());
             existingEmployee.setStatus(updatedEmployee.getStatus());
+            existingEmployee.setMaritalStatus(updatedEmployee.getMaritalStatus());
+            existingEmployee.setNationality(updatedEmployee.getNationality());
+            existingEmployee.setReligion(updatedEmployee.getReligion());
+            existingEmployee.setDateOfRetirement(updatedEmployee.getDateOfRetirement());
+            existingEmployee.setDateOfExit(updatedEmployee.getDateOfExit());
+            existingEmployee.setExitReason(updatedEmployee.getExitReason());
+            existingEmployee.setDateOfContractEnd(updatedEmployee.getDateOfContractEnd());
 
             employeeRepository.save(existingEmployee);
 
