@@ -1,5 +1,6 @@
 package com.hris.HRIS.service;
 
+import com.hris.HRIS.model.AttendanceModel;
 import com.hris.HRIS.model.LeaveModel;
 import com.hris.HRIS.repository.LeaveRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,8 @@ public class LeaveService {
             // Update the existing record with the new data
 
             existingLeaveModel.setLeaveType(updateLeaveModel.getLeaveType());
+            existingLeaveModel.setEmpId(updateLeaveModel.getEmpId());
+            existingLeaveModel.setName(updateLeaveModel.getName());
             existingLeaveModel.setReason(updateLeaveModel.getReason());
             existingLeaveModel.setLeaveStartDate(updateLeaveModel.getLeaveStartDate());
             existingLeaveModel.setLeaveEndDate(updateLeaveModel.getLeaveEndDate());

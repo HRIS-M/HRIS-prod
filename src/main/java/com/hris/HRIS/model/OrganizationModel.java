@@ -28,4 +28,11 @@ public class OrganizationModel {
     private List<EmployeeModel> employees;
     private String description;
     private String photo;
+    private int annualLeave;
+    private int sickLeave;
+    private int casualLeave;
+    private int maternityLeave;
+    private int paternityLeave;
+    private int noPayLeave;
+    public Boolean isLeavesConfigured = false;
 }

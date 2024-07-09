@@ -1,7 +1,8 @@
 package com.hris.HRIS.repository;
 
-import com.hris.HRIS.model.TaxModel;
 import org.springframework.data.mongodb.repository.MongoRepository;
+
+import com.hris.HRIS.model.TaxModel;
 
 import java.util.List;
 

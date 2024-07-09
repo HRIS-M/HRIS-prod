@@ -2,7 +2,10 @@ package com.hris.HRIS.controller;
 
 import com.hris.HRIS.dto.ApiResponse;
 import com.hris.HRIS.model.PayItemModel;
+import com.hris.HRIS.repository.EmployeePayItemRepository;
+import com.hris.HRIS.repository.EmployeeRepository;
 import com.hris.HRIS.repository.PayItemRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,6 +20,11 @@ public class PayItemController {
     @Autowired
     PayItemRepository payItemRepository;
 
+    @Autowired
+    EmployeeRepository employeeRepository;
+    @Autowired
+    private EmployeePayItemRepository employeePayItemRepository;
+
     @PostMapping("/save")
     public ResponseEntity<ApiResponse> savePayItem(@RequestBody PayItemModel payItemModel) {
         payItemModel.setId(null);
@@ -29,8 +37,13 @@ public class PayItemController {
     @GetMapping("/get/all/organizationId/{organizationId}")
     public List<PayItemModel> getAllPayItems(@PathVariable String organizationId){
 
-        return payItemRepository.findAllByOrganizationId(organizationId);
+        List<PayItemModel> payitemsList = payItemRepository.findAllByOrganizationId(organizationId);
 
+        for (PayItemModel payItemModel : payitemsList) {
+            payItemModel.setIsDeletable(isPayItemDeletable(payItemModel.getId()));
+        }
+
+        return payitemsList;
     }
 
     @GetMapping("/get/id/{id}")
@@ -38,6 +51,16 @@ public class PayItemController {
         Optional<PayItemModel> payItemModelOptional = payItemRepository.findById(id);
 
         return payItemModelOptional.map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping("/is-deletable/id/{id}")
+    public Boolean isPayItemDeletable(@PathVariable String id){
+
+        if(employeePayItemRepository.findAllByPayItemId(id).size() > 0){
+            return false;
+        }else {
+            return true;
+        }
     }
 
     @GetMapping("/get/name/{itemName}")

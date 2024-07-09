@@ -2,6 +2,7 @@ package com.hris.HRIS.controller;
 
 
 import com.hris.HRIS.dto.ApiResponse;
+import com.hris.HRIS.model.CredentialsModel;
 import com.hris.HRIS.model.OpenUserCredentialsModel;
 import com.hris.HRIS.repository.OpenUserCredentialsRepository;
 import org.springframework.beans.factory.annotation.Autowired;

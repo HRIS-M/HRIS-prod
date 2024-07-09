@@ -14,9 +14,11 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class JobPostModel {
 
     @Id
-    private String Id;
+    private String id;
 
-    private String caption;
+    private String organizationId;
+
+    private String caption; //means title
 
     private String about_job;
 
@@ -27,6 +29,8 @@ public class JobPostModel {
     private String responsibilities;
 
     private String experience_level;
+
+    private String open_date;
 
     private String end_date;
 

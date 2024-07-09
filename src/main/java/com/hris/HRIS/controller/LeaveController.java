@@ -1,5 +1,6 @@
 package com.hris.HRIS.controller;
 
+import com.hris.HRIS.model.AttendanceModel;
 import com.hris.HRIS.model.LeaveModel;
 import com.hris.HRIS.repository.LeaveRepository;
 import com.hris.HRIS.service.LeaveService;

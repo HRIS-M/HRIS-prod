@@ -3,8 +3,10 @@ package com.hris.HRIS.controller;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hris.HRIS.dto.ApiResponse;
+import com.hris.HRIS.dto.CourseUser;
 import com.hris.HRIS.model.CourseModel;
 import com.hris.HRIS.repository.CourseRepository;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,7 @@ public class CourseController {
 
     @PostMapping("/save")
     public ResponseEntity<ApiResponse> createCourse(@RequestBody CourseModel courseModel) {
+        courseModel.setId(null);
         courseModel.setCourseCreatedDate(LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")));
         courseRepository.save(courseModel);
 
@@ -90,14 +93,19 @@ public class CourseController {
         Optional<CourseModel> courseModelOptional = courseRepository.findById(courseId);
 
         if(courseModelOptional.isPresent()){
-            List<Context> users = (List<Context>) courseModelOptional.get().getUsers();
-            
+//            List<Context> users = (List<Context>) courseModelOptional.get().getUsers();
+            List<CourseUser> users = courseModelOptional.get().getUsers();
+
             try{
                 JsonNode requestBodyJson = objectMapper.readTree(requestBody);
 
-                Context user = new Context();
-                user.setVariable("email", requestBodyJson.get("email").asText());
-                user.setVariable("role", requestBodyJson.get("role").asText());
+//                Context user = new Context();
+//                user.setVariable("email", requestBodyJson.get("email").asText());
+//                user.setVariable("role", requestBodyJson.get("role").asText());
+
+                CourseUser user = new CourseUser();
+                user.setEmail(requestBodyJson.get("email").asText());
+                user.setRole(requestBodyJson.get("role").asText());
 
                 users.add(user);
 
@@ -125,12 +133,13 @@ public class CourseController {
         Optional<CourseModel> courseModelOptional = courseRepository.findById(courseId);
 
         if(courseModelOptional.isPresent()){
-            List<Context> users = (List<Context>) courseModelOptional.get().getUsers();
+//            List<Context> users = (List<Context>) courseModelOptional.get().getUsers();
+            List<CourseUser> users = courseModelOptional.get().getUsers();
             
             try{
                 
                 for(int i = 0; i < users.size(); i++){
-                    if (users.get(i).getVariable("email").equals(email)){
+                    if (users.get(i).getEmail().equals(email)){
                         users.remove(i);
                         break;
                     }
@@ -161,15 +170,16 @@ public class CourseController {
         Optional<CourseModel> courseModelOptional = courseRepository.findById(courseId);
 
         if(courseModelOptional.isPresent()){
-            List<Context> users = (List<Context>) courseModelOptional.get().getUsers();
-            
+//            List<Context> users = (List<Context>) courseModelOptional.get().getUsers();
+            List<CourseUser> users = courseModelOptional.get().getUsers();
+
             try{
                 
                 JsonNode requestBodyJson = objectMapper.readTree(requestBody);
 
                 for(int i = 0; i < users.size(); i++){
-                    if (users.get(i).getVariable("email").equals(email)){
-                        users.get(i).setVariable("role", requestBodyJson.get("role").asText());;
+                    if (users.get(i).getEmail().equals(email)){
+                        users.get(i).setRole(requestBodyJson.get("role").asText());;
                         break;
                     }
                 }
@@ -191,24 +201,30 @@ public class CourseController {
     }
 
     @GetMapping("/{courseId}/users/get")
-    public ResponseEntity<Object> getAllCourseUsers(@PathVariable String courseId){
+    public ResponseEntity<List<CourseUser>> getAllCourseUsers(@PathVariable String courseId){
         Optional<CourseModel> courseModelOptional = courseRepository.findById(courseId);
-        JSONArray usersList = new JSONArray();
-
+//        JSONArray usersList = new JSONArray();
+//
+//        if (courseModelOptional.isPresent()){
+////            List<Context> users = (List<Context>) courseModelOptional.get().getUsers();
+//            List<CourseUser> users = courseModelOptional.get().getUsers();
+//
+//            for(int i = 0; i < users.size(); i++){
+//                JSONObject user = new JSONObject();
+//
+//                user.put("email", users.get(i).getEmail());
+//                user.put("role", users.get(i).getRole());
+//
+//                usersList.put(user);
+//            }
+//        }
+//
+//        return ResponseEntity.ok(usersList.toList());
         if (courseModelOptional.isPresent()){
-            List<Context> users = (List<Context>) courseModelOptional.get().getUsers();
-
-            for(int i = 0; i < users.size(); i++){
-                JSONObject user = new JSONObject();
-
-                user.put("email", users.get(i).getVariable("email"));
-                user.put("role", users.get(i).getVariable("role"));
-
-                usersList.put(user);
-            }
+            return ResponseEntity.ok(courseModelOptional.get().getUsers());
+        }else{
+            return ResponseEntity.notFound().build();
         }
-
-        return ResponseEntity.ok(usersList.toList());
     }
 
     @GetMapping("/{courseId}/user/{email}/check")
@@ -217,10 +233,11 @@ public class CourseController {
         JSONArray usersList = new JSONArray();
 
         if (courseModelOptional.isPresent()){
-            List<Context> users = (List<Context>) courseModelOptional.get().getUsers();
+//            List<Context> users = (List<Context>) courseModelOptional.get().getUsers();
+            List<CourseUser> users = courseModelOptional.get().getUsers();
 
             for(int i = 0; i < users.size(); i++){
-                if(users.get(i).getVariable("email").equals(email)){
+                if(users.get(i).getEmail().equals(email)){
                     return true;
                 }
             }

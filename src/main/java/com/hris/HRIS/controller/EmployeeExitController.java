@@ -48,11 +48,17 @@ public class EmployeeExitController {
             EmployeeExitModel existingExitList = exitListModelOptional.get();
             existingExitList.setName(employeeExitModel.getName());
             existingExitList.setEmail(employeeExitModel.getEmail());
+            existingExitList.setOrganizationId(employeeExitModel.getOrganizationId());
             existingExitList.setPhone(employeeExitModel.getPhone());
+            existingExitList.setTelephone(employeeExitModel.getTelephone());
             existingExitList.setAddress(employeeExitModel.getAddress());
             existingExitList.setJobData(employeeExitModel.getJobData());
             existingExitList.setDoe(employeeExitModel.getDoe());
             existingExitList.setDoj(employeeExitModel.getDoj());
+            existingExitList.setStatus(employeeExitModel.getStatus());
+            existingExitList.setDateOfRetirement(employeeExitModel.getDateOfRetirement());
+            existingExitList.setExitReason(employeeExitModel.getExitReason());
+            existingExitList.setDateOfContractEnd(employeeExitModel.getDateOfContractEnd());
             existingExitList.setPhoto(employeeExitModel.getPhoto());
             existingExitList.setApproved(employeeExitModel.isApproved());
 

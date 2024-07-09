@@ -1,26 +1,31 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8"/>
-  <title>Approved Transfer Letter</title>
+    <meta charset="UTF-8"/>
 </head>
 <body>
-<h2>Approved Transfer Letter</h2>
+<div class="p-2" style="background-color: #0CBC87">
+    <h2 style="color: white">Approved Transfer Letter</h2>
+</div>
 
-<p>Dear <span th:text="${name}"></span>,</p>
+<div class="container">
+    <p>Dear <span th:text="${name}"></span>,</p>
 
-<p>We are pleased to inform you that your transfer request has been approved. Congratulations!</p>
+    <p>We are pleased to inform you that your transfer request has been approved. Congratulations!</p>
 
-<p>Details:</p>
-<ul>
-  <li>Email: <span th:text="${email}"></span></li>
-  <li>Phone: <span th:text="${phone}"></span></li>
-  <!-- Include other details as needed -->
-</ul>
+    <p>Details:</p>
+    <ul style="list-style: none">
+        <li>Email: <span th:text="${email}"></span></li>
+        <li>Phone: <span th:text="${phone}"></span></li>
+        <!-- Include other details as needed -->
+    </ul>
 
-<p>Your new position is <span th:text="${jobData.position}"></span> in the <span th:text="${jobData.department}"></span> department.</p>
+    <p>Your new position is <span th:text="${jobData.position}"></span> in the <span
+            th:text="${jobData.department}"></span> department.</p>
+    <br><br>
 
-<p>Best Regards,<br/>
-  HR Department</p>
+    <p>Best Regards,<br/>
+        HR Department</p>
+</div>
 </body>
 </html>

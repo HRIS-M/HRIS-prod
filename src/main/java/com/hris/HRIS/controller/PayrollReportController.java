@@ -7,15 +7,17 @@ import com.hris.HRIS.repository.EmployeeRepository;
 import com.hris.HRIS.repository.OrganizationRepository;
 import com.hris.HRIS.repository.PayrollReportRepository;
 import com.hris.HRIS.service.PayrollReportsGenerationService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("api/v1/payrollreport")
@@ -49,18 +51,18 @@ public class PayrollReportController {
 //        }
 //    }
 
-    @PostMapping("/generate/organizationId/{organizationId}")
-    public ResponseEntity<ApiResponse> generateAllPayrollReportsByOrganizationId(@PathVariable String organizationId) {
+    @PostMapping("/generate/organizationId/{organizationId}/isPreCalculation/{isPreCalculation}")
+    public ResponseEntity<ApiResponse> generateAllPayrollReportsByOrganizationId(@PathVariable String organizationId, @PathVariable boolean isPreCalculation) {
 
         System.out.println("Process: Generate Payroll Reports - Running...");
 
         String payPeriod = LocalDate.now().format(DateTimeFormatter.ofPattern("MMMM-yyyy"));
 
         for (EmployeeModel employeeModel : organizationRepository.findById(organizationId).get().getEmployees()) {
-            payrollReportsGenerationService.generatePayrollReport("paysheet", payPeriod, employeeModel.getEmail(), employeeModel.getOrganizationId());
+            payrollReportsGenerationService.generatePayrollReport("paysheet", payPeriod, employeeModel.getEmail(), employeeModel.getOrganizationId(), isPreCalculation);
         }
 
-        payrollReportsGenerationService.generateSummaryReport("Summary Report", payPeriod, organizationId);
+        payrollReportsGenerationService.generateSummaryReport("Summary Report", payPeriod, organizationId, isPreCalculation);
 
 
         ApiResponse apiResponse = new ApiResponse("Reports generated successfuly.");
@@ -70,7 +72,7 @@ public class PayrollReportController {
     @PostMapping("/{organizationId}/{reportType}/{payPeriod}/generate/{email}")
     public ResponseEntity<ApiResponse> generatePayrollReport(@PathVariable String organizationId, @PathVariable String reportType, @PathVariable String payPeriod, @PathVariable String email) {
 
-        payrollReportsGenerationService.generatePayrollReport(reportType, payPeriod, email, organizationId);
+        payrollReportsGenerationService.generatePayrollReport(reportType, payPeriod, email, organizationId, false);
 
         ApiResponse apiResponse = new ApiResponse("Report generated successfuly.");
         return ResponseEntity.ok(apiResponse);

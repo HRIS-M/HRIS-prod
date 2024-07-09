@@ -1,9 +1,10 @@
 package com.hris.HRIS.repository;
 
-import com.hris.HRIS.model.QuizModel;
+import java.util.List;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 
-import java.util.List;
+import com.hris.HRIS.model.QuizModel;
 
 public interface QuizRepository extends MongoRepository<QuizModel, String> {
 
